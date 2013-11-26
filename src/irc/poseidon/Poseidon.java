@@ -146,6 +146,7 @@ public class Poseidon extends javax.swing.JFrame {
                     list1.add(p.getIp() + ":" + p.getPort());
                 }
             }
+            jLabel1.setText("Proxy List (" + proxyList.size() + ")");
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Poseidon.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
