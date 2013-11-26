@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+
 public class DccChat {
     DccChat(PircBot bot, String nick, String login, String hostname, long address, int port) {
         _bot = bot;
