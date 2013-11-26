@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package irc.poseidon;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ import javax.swing.UIManager;
  */
 public class Poseidon extends javax.swing.JFrame {
 
-    public static ArrayList l = new ArrayList();
+    public static ArrayList<ProxyObject> proxyList = new ArrayList();
+
     /**
      * Creates new form Poseidon
      */
@@ -63,6 +66,11 @@ public class Poseidon extends javax.swing.JFrame {
         jLabel1.setText("Proxy List (0)");
 
         jButton1.setText("Load Proxies");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setText("proxies.txt");
 
@@ -117,6 +125,34 @@ public class Poseidon extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(jTextField1.getText()));
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append('\n');
+                line = br.readLine();
+            }
+            String file = sb.toString();
+            br.close();
+            String[] proxies = file.split("\n");
+            for (String proxy : proxies) {
+                if (!proxy.equals("")) {
+                    String[] proxySplit = proxy.split(jTextField2.getText());
+                    ProxyObject p = new ProxyObject(proxySplit[0], Integer.parseInt(proxySplit[1]));
+                    proxyList.add(p);
+                    list1.add(p.getIp() + ":" + p.getPort());
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Poseidon.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Poseidon.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -156,4 +192,5 @@ public class Poseidon extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
+
 }
